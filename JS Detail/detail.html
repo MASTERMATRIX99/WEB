@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <title>JS Detail</title>
+    </head>
+    <body>
+        <h1>JS Detail Example</h1>
+        <p id="number"></p>
+        <p id="string"></p>
+        <script>
+            var x = 70;
+            var y = 90;
+            var r = "I have a pet cat.";
+            var s = r.search("cat");
+            var r2 = r.replace(" a "," a lot of ");
+            document.getElementById("number").innerHTML = "The sum of x and y is: " + x + y;
+            document.getElementById("string").innerHTML = "The value of string x + y is: " + String(x) + String(y);
+            document.write("The positon of cat in the string is: " + s + "<br>");
+            document.write("the new string is : " + r2);
+        </script>
+    </body>
+</html>

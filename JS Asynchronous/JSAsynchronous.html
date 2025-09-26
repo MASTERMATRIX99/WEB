@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>JS Json example</h1>
+        <p id = "Json"></p>
+        <script>
+            var myobj = {name: "John", age: 14, grade: 8};
+            var myJSON = JSON.stringify(myobj);
+            var newobj = JSON.parse(myJSON);
+            document.getElementById("Json").innerHTML = "My name is " + newobj.name + " and I am " + newobj.age + " years old. I read in class " + newobj.grade + ".";
+        </script>
+    </body>
+</html>

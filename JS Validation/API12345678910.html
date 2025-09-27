@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>JS API</title>
+    </head>
+    <body>
+        <h1>JS API Example</h1>
+        <input id="id1" type="number" min="100" max="300" required>
+        <button onclick="myFunction()">ok</button>
+        <p id="message"></p>
+        <script>
+            function myFunction(){
+                var inpobj = document.getElementById("id1");
+                if(!inpobj.checkvalidity()){
+                    document.getElementById("message").innerHTML=inpobj.validationMessage;
+                }
+                else{
+                    document.getElementById("message").innerHTML="submited";
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Area Calculator</title>
+</head>
+<body>
+    <h1>Area Calculator</h1>
+    <p>An area calculator involves applying the appropriate mathematical formula, such as length multiplied by width for a
+    rectangle or side squared for a square, to the dimensions of a given two-dimensional shape.</p>
+    <script>
+        var choice = prompt("Welcome to Area Calculator. \n Please Enter your Choice. \n1.Area of Rectangle. \n2.Area of Triangle. \n3.Area of Circle. \n4.Area of Parallelogram");
+
+
+        if (choice == "1") {
+            var length = prompt("Enter the length of the rectangle:");
+            var width = prompt("Enter the width of the rectangle:");
+            var area = length * width;
+            alert("The area of the rectangle is: " + area);
+        }
+
+        if (choice == "2") {
+            var base = prompt("Enter the base of the triangle:");
+            var height = prompt("Enter the height of the triangle:");
+            var area = 0.5 * base * height;
+            alert("The area of the triangle is: " + area);
+        }
+
+        if (choice == "3") {
+            var radius = prompt("Enter the radius of the circle:");
+            var area = 3.14 * radius * radius;
+            alert("The area of the circle is: " + area);
+        }
+
+        if (choice == "4") {
+            var base = prompt("Enter the base of the parallelogram:");
+            var height = prompt("Enter the height of the parallelogram:");
+            var area = base * height;
+            alert("The area of the parallelogram is: " + area);
+        }
+    </script>
+</body>
+</html>

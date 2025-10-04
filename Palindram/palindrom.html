@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>JS Palindrom</title>
+    </head>
+    <body>
+        <h1>JS Palindrom</h1>
+        <script>
+            function palindrom(myString){
+                var input = myString.replace(/(^A-Z0-9)/ig, "").toLowerCase();
+                var reversed = input.split("").reverse().join("");
+                if (input === reversed){
+                    document.write("<div>" + myString + " is a palindrom</div>");
+                }
+                else {
+                    document.write("<div>" + myString + " is not a palindrom</div>");
+                }
+            }
+                var myString = prompt("Enter a string: ");
+                alert("You entered: " + myString);
+                palindrom(myString);
+        </script>
+    </body>
+</html>

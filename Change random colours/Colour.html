@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Random Colours</title>
+    <style>
+        body {
+            transition: background 0.5s;
+        }
+        button {
+            padding: 20px;
+            font-size: 18px;
+            margin-top: 250px;
+            margin-left: 205px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="changeColor()">Change Random Colour</button>
+    <script>
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function changeColor() {
+            document.body.style.background = getRandomColor();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #itemInput {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        #itemInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        #addBtn {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        #addBtn:hover {
+            background: #764ba2;
+        }
+
+        #addBtn:active {
+            transform: scale(0.98);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+        }
+
+        #shoppingList {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .list-item.completed {
+            background: #e8f5e9;
+        }
+
+        .list-item.completed .item-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .item-text {
+            flex: 1;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .delete-btn {
+            padding: 6px 12px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stats-item {
+            text-align: center;
+        }
+
+        .stats-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 16px;
+        }
+
+        .clear-all {
+            width: 100%;
+            padding: 10px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .clear-all:hover {
+            background: #f57c00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛒 Shopping List</h1>
+
+        <div class="input-container">
+            <input type="text" id="itemInput" placeholder="Add a new item..." autocomplete="off" />
+            <button id="addBtn">Add</button>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="stats">
+            <div class="stats-item">
+                <div>Total Items</div>
+                <div class="stats-value" id="totalCount">0</div>
+            </div>
+            <div class="stats-item">
+                <div>Completed</div>
+                <div class="stats-value" id="completedCount">0</div>
+            </div>
+            <div class="stats-item">
+                <div>Remaining</div>
+                <div class="stats-value" id="remainingCount">0</div>
+            </div>
+        </div>
+
+        <ul id="shoppingList"></ul>
+
+        <div id="emptyMessage" class="empty-message">
+            Your shopping list is empty. Add an item to get started!
+        </div>
+
+        <button class="clear-all" id="clearAllBtn">Clear All Items</button>
+    </div>
+
+    <script>
+        // Shopping List Application
+        class ShoppingList {
+            constructor() {
+                this.items = this.loadFromLocalStorage();
+                this.currentFilter = 'all';
+                this.initEventListeners();
+                this.render();
+            }
+
+            initEventListeners() {
+                // Add item functionality
+                document.getElementById('addBtn').addEventListener('click', () => this.addItem());
+                document.getElementById('itemInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.addItem();
+                });
+
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.currentFilter = e.target.dataset.filter;
+                        this.render();
+                    });
+                });
+
+                // Clear all button
+                document.getElementById('clearAllBtn').addEventListener('click', () => this.clearAll());
+            }
+
+            addItem() {
+                const input = document.getElementById('itemInput');
+                const itemText = input.value.trim();
+
+                if (itemText === '') {
+                    alert('Please enter an item!');
+                    return;
+                }
+
+                const newItem = {
+                    id: Date.now(),
+                    text: itemText,
+                    completed: false
+                };
+
+                this.items.push(newItem);
+                input.value = '';
+                input.focus();
+                this.saveToLocalStorage();
+                this.render();
+            }
+
+            deleteItem(id) {
+                this.items = this.items.filter(item => item.id !== id);
+                this.saveToLocalStorage();
+                this.render();
+            }
+
+            toggleComplete(id) {
+                const item = this.items.find(item => item.id === id);
+                if (item) {
+                    item.completed = !item.completed;
+                    this.saveToLocalStorage();
+                    this.render();
+                }
+            }
+
+            clearAll() {
+                if (this.items.length === 0) {
+                    alert('Your list is already empty!');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to delete all items?')) {
+                    this.items = [];
+                    this.saveToLocalStorage();
+                    this.render();
+                }
+            }
+
+            getFilteredItems() {
+                switch (this.currentFilter) {
+                    case 'active':
+                        return this.items.filter(item => !item.completed);
+                    case 'completed':
+                        return this.items.filter(item => item.completed);
+                    default:
+                        return this.items;
+                }
+            }
+
+            updateStats() {
+                const total = this.items.length;
+                const completed = this.items.filter(item => item.completed).length;
+                const remaining = total - completed;
+
+                document.getElementById('totalCount').textContent = total;
+                document.getElementById('completedCount').textContent = completed;
+                document.getElementById('remainingCount').textContent = remaining;
+            }
+
+            render() {
+                const list = document.getElementById('shoppingList');
+                const emptyMessage = document.getElementById('emptyMessage');
+                const filteredItems = this.getFilteredItems();
+
+                // Clear the list
+                list.innerHTML = '';
+
+                // Show/hide empty message
+                if (this.items.length === 0) {
+                    emptyMessage.style.display = 'block';
+                } else {
+                    emptyMessage.style.display = 'none';
+                }
+
+                // Render items
+                filteredItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = `list-item ${item.completed ? 'completed' : ''}`;
+                    li.innerHTML = `
+                        <input
+                            type="checkbox"
+                            class="checkbox"
+                            ${item.completed ? 'checked' : ''}
+                            onchange="shoppingList.toggleComplete(${item.id})"
+                        />
+                        <span class="item-text">${this.escapeHtml(item.text)}</span>
+                        <button class="delete-btn" onclick="shoppingList.deleteItem(${item.id})">Delete</button>
+                    `;
+                    list.appendChild(li);
+                });
+
+                // Update stats
+                this.updateStats();
+            }
+
+            saveToLocalStorage() {
+                localStorage.setItem('shoppingItems', JSON.stringify(this.items));
+            }
+
+            loadFromLocalStorage() {
+                const saved = localStorage.getItem('shoppingItems');
+                return saved ? JSON.parse(saved) : [];
+            }
+
+            escapeHtml(text) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, m => map[m]);
+            }
+        }
+
+        // Initialize the application
+        const shoppingList = new ShoppingList();
+    </script>
+</body>
+
+</html>
